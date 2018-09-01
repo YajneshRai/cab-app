@@ -29,8 +29,7 @@ let driver = {
 
         const query = 'select ride.request_id, ride.request_time, ride.customer_id, ride.status, ride_taken.start_time, ride_taken.end_time, ride_taken.driver_id ' +
                     'from ride ' +
-                    'left join ride_taken on ride.request_id = ride_taken.request_id '
-                    'group by ride.status';
+                    'left join ride_taken on ride.request_id = ride_taken.request_id ';
         
         db.query(query, null)
         .then( response => { 
