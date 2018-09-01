@@ -1,0 +1,63 @@
+<div class="row text-center">
+  <div class="col-md-4 border"><h3>Waiting</h3></div>
+  <div class="col-md-4 border"><h3>In Progress</h3></div>
+  <div class="col-md-4 border"><h3>Completed</h3></div>
+</div>
+<div class="row">
+
+    <div class="col-md-4 border">
+      <ng-container *ngFor="let wt of waitingList; let idx=index">
+        <br>
+        <div class="card rideinfo">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6"><b>Req ID: </b> {{wt.reqid}}</div>
+              <div class="col-md-6"><b>Cust ID: </b> {{wt.custid}}</div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 text-center">
+                {{wt.reqtime}}
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <button class="btn btn-warning">Select</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    <br>
+    </div>
+
+
+    <div class="col-md-4 border">
+      <ng-container *ngFor="let pg of progressList; let idx=index">
+          <br>
+          <div class="card rideinfo">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6"><b>Req ID: </b> {{pg.reqid}}</div>
+                <div class="col-md-6"><b>Cust ID: </b> {{pg.custid}}</div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 text-center">
+                  {{pg.reqtime}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 text-center">
+                  {{pg.starttime}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      <br>
+    </div>
+
+    <div class="col-md-4 border">
+
+    </div>
+  </div>
