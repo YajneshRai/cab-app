@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { DataService } from '../data-service.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-driver',
@@ -9,6 +11,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 export class DriverComponent implements OnInit {
 
   driverId: string;
+  rideInfo: any = { waiting: [], progress: [], complete: [] };
 
   waitingList = [
     { reqid: 1, custid: 5, reqtime: ''},
@@ -28,12 +31,26 @@ export class DriverComponent implements OnInit {
     { reqid: 1, custid: 9, reqtime: ''}
   ];
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute,
+              private dataService: DataService) { }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
       this.driverId = this.route.snapshot.params['id'] 
     });
+
+    this.getData();
   }
 
+  getData() {
+    this.dataService.getAllRequests(this.driverId).subscribe(
+      data => { console.log(data); this.rideInfo = data; }
+    );
+  }
+
+  getTime(time) {
+    const now = moment(new Date());
+    const start = moment(time);
+    return start.from(now);
+  }
 }

@@ -3,7 +3,7 @@
       <h3>Driver App - Driver ID <b>{{driverId}}</b></h3>
   </div>
   <div class="col-md-2 text-right">
-    <button class="btn btn-info" style="width: 100%">
+    <button class="btn btn-info" style="width: 100%" (click)="getData()">
       Refresh
     </button>
   </div>
@@ -16,20 +16,21 @@
   <div class="col-md-4 border"><h5>In Progress</h5></div>
   <div class="col-md-4 border"><h5>Completed</h5></div>
 </div>
-<div class="row">
 
+<div class="row">
     <div class="col-md-4 border">
-      <ng-container *ngFor="let wt of waitingList; let idx=index">
+      <ng-container *ngFor="let ride of rideInfo.waiting; let idx=index">
         <br>
         <div class="card rideinfo">
           <div class="card-body">
             <div class="row">
-              <div class="col-md-6"><b>Req ID: </b> {{wt.reqid}}</div>
-              <div class="col-md-6"><b>Cust ID: </b> {{wt.custid}}</div>
+              <div class="col-md-6"><b>Req ID: </b> {{ride.request_id}}</div>
+              <div class="col-md-6"><b>Cust ID: </b> {{ride.customer_id}}</div>
             </div>
+            <br>
             <div class="row">
               <div class="col-md-12 text-center">
-                {{wt.reqtime}}
+                {{getTime(ride.request_time)}}
               </div>
             </div>
             <br>
@@ -46,22 +47,22 @@
 
 
     <div class="col-md-4 border">
-      <ng-container *ngFor="let pg of progressList; let idx=index">
+      <ng-container *ngFor="let ride of rideInfo.progress; let idx=index">
           <br>
           <div class="card rideinfo">
             <div class="card-body">
               <div class="row">
-                <div class="col-md-6"><b>Req ID: </b> {{pg.reqid}}</div>
-                <div class="col-md-6"><b>Cust ID: </b> {{pg.custid}}</div>
+                <div class="col-md-6"><b>Req ID: </b> {{ride.request_id}}</div>
+                <div class="col-md-6"><b>Cust ID: </b> {{ride.customer_id}}</div>
               </div>
+              <br>
               <div class="row">
                 <div class="col-md-12 text-center">
-                  {{pg.reqtime}}
+                  <b>Request: </b>{{getTime(ride.request_time)}}
                 </div>
-              </div>
-              <div class="row">
+                <br>
                 <div class="col-md-12 text-center">
-                  {{pg.starttime}}
+                  <b>Picked up: </b>{{getTime(ride.start_time)}}
                 </div>
               </div>
             </div>
@@ -71,6 +72,30 @@
     </div>
 
     <div class="col-md-4 border">
-
+      <ng-container *ngFor="let ride of rideInfo.complete; let idx=index">
+        <br>
+        <div class="card rideinfo">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6"><b>Req ID: </b> {{ride.request_id}}</div>
+              <div class="col-md-6"><b>Cust ID: </b> {{ride.customer_id}}</div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <b>Request: </b>{{getTime(ride.request_time)}}
+              </div>
+              <br>
+              <div class="col-md-12 text-center">
+                <b>Picked up: </b>{{getTime(ride.start_time)}}
+              </div>
+              <br>
+              <div class="col-md-12 text-center">
+                <b>Complete: </b>{{getTime(ride.end_time)}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
     </div>
   </div>

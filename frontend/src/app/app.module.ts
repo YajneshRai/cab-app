@@ -9,6 +9,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CustomerComponent } from './customer/customer.component';
 import { DriverComponent } from './driver/driver.component';
 import { HomeComponent } from './home/home.component';
+import { DataService } from './data-service.service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch : 'full' },
@@ -34,7 +35,7 @@ const routes: Routes = [
     ReactiveFormsModule, 
     HttpClientModule
   ],
-  providers: [],
+  providers: [ DataService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
