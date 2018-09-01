@@ -4,7 +4,7 @@
         <div class="card-body">
           <h5 class="card-title">Dashboard</h5>
           <p class="card-text">This will take you to dashboard.</p>
-          <a routerLink="/dashboard" class="btn btn-primary">Go to Dashboard</a>
+          <button routerLink="/dashboard" class="btn btn-primary">Go to Dashboard</button>
         </div>
       </div>
     </div>
@@ -13,7 +13,7 @@
         <div class="card-body">
           <h5 class="card-title">Customer App</h5>
           <p class="card-text">This will take you to Customer App.</p>
-          <a routerLink="/customer" class="btn btn-primary">Go to Customer App</a>
+          <button routerLink="/customer" class="btn btn-primary">Go to Customer App</button>
         </div>
       </div>
     </div>
@@ -22,7 +22,16 @@
         <div class="card-body">
           <h5 class="card-title">Driver App</h5>
           <p class="card-text">This will take you to Driver App.</p>
-          <a routerLink="/driver" class="btn btn-primary">Go to Driver App</a>
+          <div class="dropdown show">
+            <button class="btn btn-primary dropdown-toggle" id="drivers" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Go to Driver App</button>
+            <div class="dropdown-menu" aria-labelledby="drivers">
+              <a class="dropdown-item" routerLink="/driver/1">Driver 1</a>
+              <a class="dropdown-item" routerLink="/driver/2">Driver 2</a>
+              <a class="dropdown-item" routerLink="/driver/3">Driver 3</a>
+              <a class="dropdown-item" routerLink="/driver/4">Driver 4</a>
+              <a class="dropdown-item" routerLink="/driver/5">Driver 5</a>
+            </div>
+          </div>
         </div>
       </div>
     </div>

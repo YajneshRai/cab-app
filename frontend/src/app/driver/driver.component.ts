@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-driver',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./driver.component.css']
 })
 export class DriverComponent implements OnInit {
+
+  driverId: string;
 
   waitingList = [
     { reqid: 1, custid: 5, reqtime: ''},
@@ -25,9 +28,12 @@ export class DriverComponent implements OnInit {
     { reqid: 1, custid: 9, reqtime: ''}
   ];
 
-  constructor() { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.route.params.subscribe((params: Params) => {
+      this.driverId = this.route.snapshot.params['id'] 
+    });
   }
 
 }

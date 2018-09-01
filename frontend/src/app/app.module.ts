@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'customer', component: CustomerComponent },
-  { path: 'driver', component: DriverComponent },
+  { path: 'driver', redirectTo: '/home', pathMatch : 'full' },
   { path: 'driver/:id', component: DriverComponent },
 ];
 
