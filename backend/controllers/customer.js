@@ -4,9 +4,13 @@ const ride = require('./ride');
 let customer = {
 
     createId : async (req, res) => {
+
+        console.log('*** createId executing ***');
+
         try {
-            const query = 'insert into customer(customer_id) values (' + parseInt(req.query.customer_id) + ')';
-            let customerResp = await db.query(query, null);
+            const custid = { customer_id: req.query.customer_id };
+            const query = 'insert into customer set ? on duplicate key update ?';
+            let customerResp = await db.query(query, [custid, custid]);
             let rideResp = await ride.createRide(req.query);
             res.send(rideResp);
         }
