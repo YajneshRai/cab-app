@@ -2,20 +2,16 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.3.
 
-## Prerequisites
+### Prerequisites
 
 - Node v6.x and above npm v3.x and above
-- Angular CLI 
-- Typescript
 
-## Steps to run UI server
+### Steps to run UI server
 
-- Install typescript globally 
-```npm install typescript -g```
-- Install angular CLI gloablly
-```npm install @angular/cli@1.6.3 -g```
+- Install all dependencies 
+```npm install```
 - Create code build
-```ng build```
+```npm run build```
 - Start server
 ```node ui_server.js```
 
