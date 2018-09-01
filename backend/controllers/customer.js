@@ -5,16 +5,20 @@ let customer = {
 
     createId : async (req, res) => {
 
-        console.log('*** createId executing ***');
+        console.log('\n*** createId executing ***');
 
         try {
-            const custid = { customer_id: req.query.customer_id };
+            const custid = { customer_id: req.body.customer_id };
             const query = 'insert into customer set ? on duplicate key update ?';
+            
             let customerResp = await db.query(query, [custid, custid]);
-            let rideResp = await ride.createRide(req.query);
+            console.log('Records created (customer) :', customerResp.affectedRows);
+
+            let rideResp = await ride.createRide(req.body);
             res.send(rideResp);
         }
         catch(e) {
+            console.error('Records insertion errored (customer / ride) :', e);
             res.send(e);
         }
     }
