@@ -7,7 +7,7 @@ show databases;
 use cabapp;
 
 create table customer (
-    customer_id int(5) auto_increment not null,
+    customer_id int(5) unique not null,
     primary key(customer_id)
 );
 
@@ -19,13 +19,23 @@ create table driver (
 create table ride (
     request_id int(5) auto_increment not null,
     request_time timestamp,
+    location_x int(1),
+    location_y int(1),
+    customer_id int(5),
+    status enum('1','2','3'),
+    primary key(request_id),
+    foreign key(customer_id) references customer(customer_id)
+);
+
+create table ride_taken (
+    id int(5) auto_increment not null,
+    request_id int(5),
     customer_id int(5),
     driver_id int(5),
     start_time timestamp,
     end_time timestamp,
-    status enum('1','2','3'),
-
-    primary key(request_id),
+    primary key(id),
+    foreign key(request_id) references ride(request_id),
     foreign key(customer_id) references customer(customer_id),
     foreign key(driver_id) references driver(driver_id)
 );
