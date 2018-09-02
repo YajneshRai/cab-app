@@ -13,6 +13,8 @@ create table customer (
 
 create table driver (
     driver_id int(5) auto_increment not null,
+    location_x int(1),
+    location_y int(1),
     primary key(driver_id)
 );
 
@@ -40,6 +42,6 @@ create table ride_taken (
 
 show tables;
 
-insert into driver(driver_id) values (1),(2),(3),(4),(5);
+insert into driver(driver_id, location_x, location_y) values (1,1,1),(2,2,2),(3,3,3),(4,4,4),(5,5,5);
 
 select * from driver;
