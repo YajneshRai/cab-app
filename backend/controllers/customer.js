@@ -17,9 +17,9 @@ let customer = {
             let rideResp = await ride.createRide(req.body);
             res.send(rideResp);
         }
-        catch(e) {
-            console.error('Records insertion errored (customer / ride) :', e);
-            res.send(e);
+        catch(error) {
+            console.error('Records insertion errored (customer / ride) :', error);
+            res.status(500).json(error);;
         }
     }
 
