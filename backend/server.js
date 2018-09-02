@@ -13,7 +13,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.post('/createId', customer.createId);
-//app.post('/checkDriverAvailability', driver.checkDriverAvailability);
 app.post('/getAllRideRequests', driver.getAllRideRequests);
 app.post('/checkRequestAvailability', driver.checkRequestAvailability);
 app.post('/selectRide', driver.selectRide);

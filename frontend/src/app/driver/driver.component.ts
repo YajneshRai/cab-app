@@ -11,7 +11,7 @@ import * as moment from 'moment';
 export class DriverComponent implements OnInit {
 
   driverId: string;
-  rideInfo: any = { waiting: [], progress: [], complete: [] };
+  rideInfo: any = { waiting: [], ongoing: [], complete: [] };
   msg: string = '';
   errMsg: string = ''; 
   curRequest: number = -1;
@@ -23,7 +23,7 @@ export class DriverComponent implements OnInit {
     { reqid: 1, custid: 9, reqtime: ''}
   ];
 
-  progressList =  [
+  ongoingList =  [
     { reqid: 1, custid: 5, reqtime: '', starttime: ''},
     { reqid: 1, custid: 8, reqtime: '', starttime: ''},
     { reqid: 1, custid: 9, reqtime: '', starttime: ''}

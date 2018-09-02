@@ -12,9 +12,9 @@
 <br>
 
 <div class="row text-center">
-  <div class="col-md-4 border"><h5>Waiting</h5></div>
-  <div class="col-md-4 border"><h5>In Progress</h5></div>
-  <div class="col-md-4 border"><h5>Completed</h5></div>
+  <div class="col-md-4 border"><h5 class="space">Waiting</h5></div>
+  <div class="col-md-4 border"><h5 class="space">Ongoing</h5></div>
+  <div class="col-md-4 border"><h5 class="space">Completed</h5></div>
 </div>
 
 <div class="row">
@@ -37,7 +37,7 @@
           <div class="row">
             <div class="col-md-12 text-center">
               <button class="btn btn-success" style="width:80%" 
-              (click)="checkRequestAvailability(ride.request_id, idx)" [disabled]="rideInfo.progress.length">Select</button>
+              (click)="checkRequestAvailability(ride.request_id, idx)" [disabled]="rideInfo.ongoing.length">Select</button>
             </div>
           </div>
           <div class="alert alert-info text-center" *ngIf="msg && idx == curRequest">
@@ -54,7 +54,7 @@
 
 
   <div class="col-md-4 border pad">
-    <ng-container *ngFor="let ride of rideInfo.progress; let idx=index">
+    <ng-container *ngFor="let ride of rideInfo.ongoing; let idx=index">
         <br>
         <div class="card rideinfo">
           <div class="card-body">
@@ -106,3 +106,4 @@
     </ng-container>
   </div>
 </div>
+<br><br>

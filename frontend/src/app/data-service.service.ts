@@ -18,17 +18,17 @@ export class DataService {
 
   getAllRequests(isDriver, driverId?) {
     let data = {};
-    data = isDriver ? { isDriver: true, driverId: driverId } : { isDriver: false };
+    data = isDriver ? { is_driver: true, driver_id: driverId } : { is_driver: false };
     return this.http.post( this.apiUrl + '/getAllRideRequests', data );
   }
 
   checkRequestAvailability(requestId) {
-    const data = { requestId: requestId };
+    const data = { request_id: requestId };
     return this.http.post( this.apiUrl + '/checkRequestAvailability', data );
   }
 
   selectRide(requestId, driverId) {
-    const data = { requestId: requestId, driverId: driverId };
+    const data = { request_id: requestId, driver_id: driverId };
     return this.http.post( this.apiUrl + '/selectRide', data );
   }
 }
