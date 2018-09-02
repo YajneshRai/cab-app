@@ -65,7 +65,7 @@ export class DriverComponent implements OnInit {
     this.errMsg = '';
     this.dataService.checkRequestAvailability(requestId).subscribe(
       data => {
-        if(data['available']) {
+        if(data.available) {
           this.msg = 'Ride request has been assigned to you.'
           setTimeout(() => { 
             this.selectRide(requestId); 
@@ -81,7 +81,7 @@ export class DriverComponent implements OnInit {
           }, 2000);
         }
       },
-      error => {},
+      error => { this.errMsg='Something went wrong'; },
       () => { }
     );
   }
@@ -89,10 +89,12 @@ export class DriverComponent implements OnInit {
   selectRide(requestId) {
     this.dataService.selectRide(requestId, this.driverId).subscribe(
       data => {
-        this.msg = ''; 
-        this.curRequest = -1; 
-        console.log(data);
-        this.getData(); 
+        if(data.success) {
+          this.msg = ''; 
+          this.curRequest = -1; 
+          console.log(data);
+          this.getData(); 
+        }
       }
     );
   }
