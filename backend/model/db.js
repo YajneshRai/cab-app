@@ -1,4 +1,5 @@
 const mysql = require('mysql');
+const DB_PASSWD = process.env.DB_PASSWD || '';
 
 class DB {
 
@@ -18,7 +19,7 @@ class DB {
 
 const connectionObject = { 
     user: 'root',
-    password: 'cabapp',
+    password: DB_PASSWD,
     database: 'cabapp'
 };
 
