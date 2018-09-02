@@ -59,7 +59,7 @@ let driver = {
      * Driver selects the ride request
      * Retuns an object with single property success = true/false
      * Parameter 1: request_id (number)
-     * Parameter 1: driver_id (number)
+     * Parameter 2: driver_id (number)
      */
     selectRide : (req, res) => {
 

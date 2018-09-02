@@ -67,9 +67,7 @@ export class DriverComponent implements OnInit {
       data => {
         if(data.available) {
           this.msg = 'Ride request has been assigned to you.'
-          setTimeout(() => { 
-            this.selectRide(requestId); 
-          }, 2000);
+          this.selectRide(requestId);
         }
         else {
           this.msg = '';
@@ -81,8 +79,7 @@ export class DriverComponent implements OnInit {
           }, 2000);
         }
       },
-      error => { this.errMsg='Something went wrong'; },
-      () => { }
+      error => { this.errMsg='Something went wrong'; }
     );
   }
 
