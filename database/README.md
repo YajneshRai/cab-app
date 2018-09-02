@@ -8,7 +8,7 @@ This directory contains the SQL file with database schema used by the applicatio
 
 ### User credentials
   Username: `root` <br>
-  Password: optional
+  Password: optional <br>
   Database name: `cabapp`
   
 ### Databse set up for the project
