@@ -1,17 +1,45 @@
 # database
 
+This directory contains the SQL file with database schema used by the application
 
 ### Assumption/Prerequisites
 
 - A working MySQL database set up in the machine
 
 ### User credentials
-  Username: `root` 
-  Password: `cabapp`
-
+  Username: `root` <br>
+  Password: optional
+  Database name: `cabapp`
+  
 ### Databse set up for the project
-- The SQL script(db.sql) contains the DB/schema structure used by the project
-- Script should be run before starting UI/backend servers
-- Everytime the script is run it will clear previous schemas and create/poplute DBs
-- This command will prompt the password, on entering which the required set up be will be done
-  ```mysql -u root -p < db.sql```
+- The SQL script(db.sql) contains the DB/schema structure used by the project.
+- Script should be run before starting UI/backend servers.
+- Everytime the script is run it will clear previous schemas and create/poplute DBs.
+- If the password is set to database, use the command - `mysql -u root -p < db.sql` ; else use `mysql -u root < db.sql`
+
+### Schema information
+
+Database name: `cabapp` <br>
+
+Tables used (columns listed below): 
+- `customer` - stores the id of customer
+  - `customer_id` varchar (id of customer) <br><br>
+  
+- `driver` - stores the id of driver
+  - `driver_id` integer (id of driver) <br><br>
+  
+- `ride` - stores the information of ride request
+  - `request_id` integer (id of request)
+  - `request_time` timestamp (time of request creation)
+  - `location_x` integer (location x value)
+  - `location_y` integer (location Y value)
+  - `customer_id` varchar (Foreign key referring to cutomer.customer_id) <br><br>
+  
+- `ride_taken` - stores the information of ride requests that are served/being served
+  - `id` integer (id of table)
+  - `request_id` integer (Foreign key referring to ride.request_id)
+  - `driver_id` integer (Foreign key referring to driver.driver_id)
+  - `start_time` timestamp (Start time of ride)
+  - `end_time` timestamp (End time of ride) <br><br>
+  
+
