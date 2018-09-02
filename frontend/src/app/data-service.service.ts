@@ -12,8 +12,8 @@ export class DataService {
     console.log(this.apiUrl)
    }
 
-  createId(customerId) : Observable<any> { 
-    const data = { customer_id: customerId, location_x: 2, location_y: 3 };
+  createId(customerId, locationX, locationY) : Observable<any> { 
+    const data = { customer_id: customerId, location_x: locationX, location_y: locationY };
     return this.http.post( this.apiUrl + '/createId', data );
   }
 
