@@ -16,3 +16,7 @@
 .space {
     padding: 0.5rem;
 }
+
+.disabled-ride:hover {
+    cursor: not-allowed;
+}
