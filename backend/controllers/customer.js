@@ -3,6 +3,11 @@ const ride = require('./ride');
 
 let customer = {
 
+    /**
+     * Create Customer ID if does not exist
+     * Also create a new request with associated Customer ID
+     * Parameter : customer_id (string)
+     */
     createId : async (req, res) => {
 
         console.log('\n*** createId executing ***');
@@ -15,7 +20,8 @@ let customer = {
             console.log('Records created (customer) :', customerResp.affectedRows);
 
             let rideResp = await ride.createRide(req.body);
-            res.send(rideResp);
+
+            rideResp.affectedRows ? res.send({success: true}) : res.send({success: false});
         }
         catch(error) {
             console.error('Records insertion errored (customer / ride) :', error);

@@ -1,10 +1,15 @@
 const moment = require('moment');
 const db = require('../model/db');
 
-const RIDE_TIME = 300000;
+const RIDE_TIME = 300000; // 5 minutes
 
 let ride = {
-
+    
+    /**
+     * Creates a ride request in ride table
+     * Retuns the response/error  
+     * Parameter 1: data (new request information)
+     */
     createRide : async (data) => {
         
         console.log('\n*** createRide executing ***');
@@ -31,6 +36,11 @@ let ride = {
         }
     },
 
+    /**
+     * Starts a ride for passed driver
+     * Retuns the response/error  
+     * Parameter 1: data (ride information)
+     */
     startRide : async(data) => {
         
         console.log('\n*** startRide executing ***');
@@ -47,6 +57,7 @@ let ride = {
             
             console.log('Scheduling auto-complete of ride in next 5 minutes for request_id = %s', data.request_id);
             
+            // Registering the method to execute after 5 minutes for auto-update in DB
             setTimeout(() => { 
                 module.exports.completeRide(data.request_id);
             }, RIDE_TIME);
@@ -59,6 +70,11 @@ let ride = {
         }
     },
 
+     /**
+     * Completes the ride for passed driver and updates the ride status
+     * Retuns the response/error  
+     * Parameter 1: rideId (number)
+     */
     completeRide : async (rideId) => {
 
         console.log('\n*** completeRide executing ***');

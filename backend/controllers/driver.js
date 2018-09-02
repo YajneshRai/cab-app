@@ -4,6 +4,13 @@ const moment = require('moment');
 
 let driver = {
 
+    /**
+     * Returns all ride requests 
+     * The flag is_driver is passed to indicate if the result being fetchd is for a driver
+     * In case of driver, pass driver_id along with is_driver = false 
+     * Parameter 1: is_driver (boolean)
+     * Parameter 2: driver_id (number)
+     */
     getAllRideRequests : (req, res) => { 
         
         console.log('\n*** getAllRideRequests executing ***');
@@ -28,6 +35,11 @@ let driver = {
         .catch( error => { res.status(500).json(error); });
     },
 
+    /**
+     * Check if the request is still available (waiting state)
+     * Retuns an object with single property available = true/false
+     * Parameter 1: request_id (number)
+     */
     checkRequestAvailability : (req, res) => {
 
         console.log('\n*** checkRequestAvailability executing ***');
@@ -43,6 +55,12 @@ let driver = {
         .catch( error => { res.status(500).json(error);; });
     },
     
+    /**
+     * Driver selects the ride request
+     * Retuns an object with single property success = true/false
+     * Parameter 1: request_id (number)
+     * Parameter 1: driver_id (number)
+     */
     selectRide : (req, res) => {
 
         console.log('\n*** selectRide executing ***');
@@ -57,11 +75,19 @@ let driver = {
         };
 
         ride.startRide(data)
-        .then( response => { res.send(response ); })
+        .then( response => { 
+            response.affectedRows ? res.send({success: true}) : res.send({success: false});
+        })
         .catch( error => { res.status(500).json(error);; });
 
     },
 
+    /**
+     * Groups data as waiting/ongoing/complete for passed driver_id
+     * Retuns an object containg 3 arrys (as per status) with data 
+     * Parameter 1: data (array fetched from DB)
+     * Parameter 1: driverId (number)
+     */
     groupDataBasedOnStatus : (data, driverId) => {
         
         let rideInfo = { waiting: [], ongoing: [], complete: [] };
