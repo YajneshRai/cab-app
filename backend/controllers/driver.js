@@ -11,28 +11,44 @@ let driver = {
      * Parameter 1: is_driver (boolean)
      * Parameter 2: driver_id (number)
      */
-    getAllRideRequests : (req, res) => { 
+    getAllRideRequests : async (req, res) => { 
         
         console.log('\n*** getAllRideRequests executing ***');
-        
-        if(req.body.is_driver)
-            console.log('driver_id:', req.body.driver_id);
 
-        const query = 'select ride.request_id, ride.request_time, ride.customer_id, ride.status, ride_taken.start_time, ride_taken.end_time, ride_taken.driver_id ' +
-                    'from ride ' +
-                    'left join ride_taken on ride.request_id = ride_taken.request_id '+
-                    'order by ride.request_id desc ';
+        let driverStatus = [];
+
+        const query1 = 'select available from driver';
         
-        db.query(query, null)
-        .then( response => { 
+        const query2 = 'select ride.request_id, ride.request_time, ride.customer_id, ride.location_x, ride.location_y, ride.status, ride_taken.start_time, ride_taken.end_time, ride_taken.driver_id ' +
+                        'from ride ' +
+                        'left join ride_taken on ride.request_id = ride_taken.request_id '+
+                        'order by ride.request_id desc ';
+
+        try {
+            if(req.body.is_driver)  {
+
+                console.log('driver_id:', req.body.driver_id);
+
+                let driverResp = await db.query(query1, req.body.driver_id);
+                driverStatus = driverResp.map(st => st.available);
+                console.log(driverStatus);
+            }
+
+            let response = await db.query(query2, null);
             console.log('Records found (ride) :', response.length);
+
             if(req.body.is_driver) {
-                response = module.exports.groupDataBasedOnStatus(response, req.body.driver_id);
+                response = module.exports.groupDataBasedOnStatus(response, req.body.driver_id, driverStatus);
                 console.log('driver_id: %s -- Waiting: %s, Ongoing: %s, Complete: %s', req.body.driver_id, response.waiting.length, response.ongoing.length, response.complete.length);
             }
+            
             res.send(response);
-        })
-        .catch( error => { res.status(500).json(error); });
+
+        }
+        catch(error) {
+            console.log('Records fetching errored (driver / ride / ride_taken) : ', error);
+            res.status(500).json(error); 
+        }
     },
 
     /**
@@ -88,13 +104,17 @@ let driver = {
      * Parameter 1: data (array fetched from DB)
      * Parameter 1: driverId (number)
      */
-    groupDataBasedOnStatus : (data, driverId) => {
+    groupDataBasedOnStatus : (data, driverId, driversStatus) => {
         
         let rideInfo = { waiting: [], ongoing: [], complete: [] };
 
         data.forEach(dt => {
-            if(dt.status == '1')
-                rideInfo.waiting.push(dt);
+            //Show request to only available drivers
+            if(dt.status == '1') {
+                let isNearestDriver = module.exports.calcDistance(dt, driverId, driversStatus);
+                if(isNearestDriver)
+                    rideInfo.waiting.push(dt);
+            }
             else if(dt.status == '2' && dt.driver_id == driverId)
                 rideInfo.ongoing.push(dt);
             else if(dt.status =='3' && dt.driver_id == driverId)    
@@ -102,6 +122,44 @@ let driver = {
         });
 
         return rideInfo;
+    },
+
+    /**
+     * Calulates distance of ride location from each driver  
+     * Returns a boolean if it is among minimum 3
+     * Parameter 1: waitingRide (ride request object)
+     * Parameter 1: driverId (number)
+     */
+    calcDistance : (waitingRide, driverId, driversStatus) => {
+
+        //Assuming driver_id = driver.location_x = driver.location_y
+        let x1 = 0, y1 = 0, driverDistance = -1, isMin = false; 
+        let x2 = waitingRide.location_x, y2 = waitingRide.location_y;
+        let distances = [];
+        
+        //Using Euclidean distance on 2-dimensional plane to calculate distance between 2 points
+        //If the current driver's distance is among least 3 values, ride request is added to his waiting list 
+        for(let i=1; i <=5; i++) {
+            //driver's location -- (1,1) , (2,2) , (3,3) , (4,4) , (5,5)
+            x1 = y1 = i; 
+            let dist = Math.sqrt( Math.pow((x1 - x2), 2) +  Math.pow((y1 - y2), 2));
+            if(i == driverId)
+                driverDistance = dist;
+            distances.push(dist);
+        }
+
+        //Sort in ascending order
+        let sortedDistances = distances.sort((a,b) => a-b);
+
+        let count = 0;
+
+        for(let i=0; i <=5; i++) {
+
+        }
+        //Check if driver's distance exists in least 3
+        isMin = distances.slice(0,3).indexOf(driverDistance) != -1 && driversStatus[driverId - 1] == '1' ? true : false;
+
+        return isMin;
     }
 }
 

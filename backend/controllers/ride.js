@@ -30,9 +30,9 @@ let ride = {
             console.log('Records created (ride) :', record.affectedRows);
             return record;
         }
-        catch(e) {
-            console.error('Records creation errored (ride) :', e);
-            return e;
+        catch(error) {
+            console.error('Records creation errored (ride) :', error);
+            return error;
         }
     },
 
@@ -47,6 +47,7 @@ let ride = {
 
         const query1 = 'insert into ride_taken set ?';
         const query2 = 'update ride set status = ? where request_id = ?';
+        const query3 = 'update driver set available = ? where driver_id = ?';
         
         try {
             let response1 = await db.query(query1, data);
@@ -55,18 +56,23 @@ let ride = {
             let response2 = await db.query(query2, [ '2', data.request_id ]);
             console.log('Records updated (ride) :', response2.affectedRows);
             
+            let response3 = await db.query(query3, [ '0', data.driver_id ]);
+            console.log('Records updated (driver) :', response3.affectedRows);
+            
+            console.log('driver_id = %s is not available for ride', data.driver_id);
+            
             console.log('Scheduling auto-complete of ride in next 5 minutes for request_id = %s', data.request_id);
             
             // Registering the method to execute after 5 minutes for auto-update in DB
             setTimeout(() => { 
-                module.exports.completeRide(data.request_id);
+                module.exports.completeRide(data.request_id, data.driver_id);
             }, RIDE_TIME);
             
             return response2;
         }
-        catch(e) {
-            console.error('Records insertion/update errored (ride / ride_taken) :', e);
-            return e;
+        catch(error) {
+            console.error('Records insertion/update errored (ride / ride_taken) :', error);
+            return error;
         }
     },
 
@@ -75,21 +81,25 @@ let ride = {
      * Retuns the response/error  
      * Parameter 1: rideId (number)
      */
-    completeRide : async (rideId) => {
+    completeRide : async (rideId, driverId) => {
 
         console.log('\n*** completeRide executing ***');
 
-        const query = 'update ride set status = ? where request_id = ?';
+        const query1 = 'update ride set status = ? where request_id = ?';
+        const query2 = 'update driver set available = ? where driver_id = ?';
         
         try {
-            let response = await db.query(query, [ '3', rideId ]);
-            if(response.affectedRows) {
-                console.log('Records updated (ride) :', response.affectedRows);
-                console.log('Ride with request_id = %s has completed', rideId);
-            }
+            let response1 = await db.query(query1, [ '3', rideId ]);
+            console.log('Records updated (ride) :', response1.affectedRows);
+
+            let response2 = await db.query(query2, [ '1', driverId ]);
+            console.log('Records updated (driver) :', response2.affectedRows);
+
+            console.log('Ride with request_id = %s has completed', rideId);
+            console.log('driver_id = %s is now available', driverId);
         }
-        catch(e) {
-            console.error('Records update errored (ride) :', e);
+        catch(error) {
+            console.error('Records update errored (ride / driver) :', error);
             throw e;
         }
     }
