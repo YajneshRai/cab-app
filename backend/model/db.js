@@ -10,7 +10,7 @@ class DB {
     query(sql, args) {
         return new Promise( (resolve, reject) => {
             this.con.query(sql, args, (err, result) => {
-                err ? reject(err) : resolve(result);
+                err ? reject(err) : ( result.errno ? reject(result) : resolve(result) );
             })
         })
     }
