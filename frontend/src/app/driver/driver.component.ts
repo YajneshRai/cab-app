@@ -12,6 +12,10 @@ export class DriverComponent implements OnInit {
 
   driverId: string;
   rideInfo: any = { waiting: [], progress: [], complete: [] };
+  msg: string = '';
+  errMsg: string = ''; 
+  curRequest: number = -1;
+  refreshOn: boolean = false;
 
   waitingList = [
     { reqid: 1, custid: 5, reqtime: ''},
@@ -43,8 +47,9 @@ export class DriverComponent implements OnInit {
   }
 
   getData() {
-    this.dataService.getAllRequests(this.driverId).subscribe(
-      data => { console.log(data); this.rideInfo = data; }
+    this.refreshOn = true;
+    this.dataService.getAllRequests(true, this.driverId).subscribe(
+      data => { console.log(data); this.rideInfo = data; this.refreshOn = false; }
     );
   }
 
@@ -52,5 +57,43 @@ export class DriverComponent implements OnInit {
     const now = moment(new Date());
     const start = moment(time);
     return start.from(now);
+  }
+
+  checkRequestAvailability(requestId, idx) {
+    this.curRequest = idx;
+    this.msg = 'Checking availability...';
+    this.errMsg = '';
+    this.dataService.checkRequestAvailability(requestId).subscribe(
+      data => {
+        if(data['available']) {
+          this.msg = 'Ride request has been assigned to you.'
+          setTimeout(() => { 
+            this.selectRide(requestId); 
+          }, 2000);
+        }
+        else {
+          this.msg = '';
+          this.errMsg = 'Sorry!! Request is no longer available';
+          setTimeout(() => { 
+            this.errMsg=''; 
+            this.curRequest = -1; 
+            this.getData(); 
+          }, 2000);
+        }
+      },
+      error => {},
+      () => { }
+    );
+  }
+
+  selectRide(requestId) {
+    this.dataService.selectRide(requestId, this.driverId).subscribe(
+      data => {
+        this.msg = ''; 
+        this.curRequest = -1; 
+        console.log(data);
+        this.getData(); 
+      }
+    );
   }
 }
