@@ -55,7 +55,7 @@ export class DataService {
 
     this.timer1 = Observable.timer(0, REFRESH_INTERVAL);
     this.driverDataSubscription = this.timer1.subscribe( tick => {
-      console.log('interval polling tick', tick);
+      //console.log('interval polling tick', tick);
       this.http.post(this.apiUrl + '/getAllRideRequests', data)
         .subscribe( response => {  
           this.driverData.next(response)
@@ -70,7 +70,7 @@ export class DataService {
 
     this.timer2 = Observable.timer(0, REFRESH_INTERVAL);
     this.rideDataSubscription = this.timer2.subscribe( tick => {
-      console.log('interval polling tick', tick);
+      //console.log('interval polling tick', tick);
       this.http.post(this.apiUrl + '/getAllRideRequests', data)
         .subscribe( response => {  
           this.rideData.next(response);
