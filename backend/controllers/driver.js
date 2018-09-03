@@ -111,6 +111,8 @@ let driver = {
         data.forEach(dt => {
             //Show request to only available drivers
             if(dt.status == '1') {
+                //Check if the driver is among 3 nearest ones to the ride request location
+                //If the driver is not available distance is not calculated for him
                 let isNearestDriver = module.exports.calcDistance(dt, driverId, driversStatus);
                 if(isNearestDriver)
                     rideInfo.waiting.push(dt);
@@ -137,9 +139,13 @@ let driver = {
         let x2 = waitingRide.location_x, y2 = waitingRide.location_y;
         let distances = [];
         
+        //If driver is not available don't show him the request
+        if(driversStatus[driverId - 1] == '0')
+            return isMin;
+        
         //Using Euclidean distance on 2-dimensional plane to calculate distance between 2 points
         //If the current driver's distance is among least 3 values, ride request is added to his waiting list 
-        for(let i=1; i <=5; i++) {
+        for(let i=1; i <= 5; i++) {
             //driver's location -- (1,1) , (2,2) , (3,3) , (4,4) , (5,5)
             x1 = y1 = i; 
             let dist = Math.sqrt( Math.pow((x1 - x2), 2) +  Math.pow((y1 - y2), 2));
@@ -148,16 +154,22 @@ let driver = {
             distances.push(dist);
         }
 
-        //Sort in ascending order
-        let sortedDistances = distances.sort((a,b) => a-b);
+        let newDistance = [];
 
-        let count = 0;
-
-        for(let i=0; i <=5; i++) {
-
+        //Fetch distance of only available drivers
+        for(let i=0; i < driversStatus.length; i++) {
+            if(driversStatus[i] == '1') {
+                newDistance.push(distances[i]);
+            }
         }
+
+        //Sort in ascending order
+        newDistance = newDistance.sort((a,b) => a-b);
+        let driversAvailableCount = newDistance.length;
+        
         //Check if driver's distance exists in least 3
-        isMin = distances.slice(0,3).indexOf(driverDistance) != -1 && driversStatus[driverId - 1] == '1' ? true : false;
+        let minDistance = driversAvailableCount >= 3 ? newDistance.slice(0, 3) :  newDistance.slice(0, driversAvailableCount);
+        isMin = minDistance.indexOf(driverDistance) != -1 ? true : false;
 
         return isMin;
     }
