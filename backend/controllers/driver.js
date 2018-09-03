@@ -31,7 +31,6 @@ let driver = {
 
                 let driverResp = await db.query(query1, req.body.driver_id);
                 driverStatus = driverResp.map(st => st.available);
-                console.log(driverStatus);
             }
 
             let response = await db.query(query2, null);
