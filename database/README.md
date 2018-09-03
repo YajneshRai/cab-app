@@ -2,7 +2,7 @@
 
 This directory contains the SQL file with database schema used by the application
 
-### Assumption/Prerequisites
+### Prerequisites
 
 - A working MySQL database set up in the machine
 
@@ -43,3 +43,7 @@ Tables used (columns listed below):
   - `end_time` timestamp (End time of ride) <br><br>
   
 
+### Assumption
+
+- `dricer.driver_id` and `ride.request_id` are auto-incremented integers starting from 1 to N
+- `driver` table is pre-populated with the records when the sql script is run
