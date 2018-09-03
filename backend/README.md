@@ -4,9 +4,9 @@ This directory contains node controllers for cab-app
 
 ### Prerequisites / Assumptions
 
-Node 7.5.x or above, npm 4.1.x or above
-MySQL DB 
-DB user is `root`
+- Node 7.5.x or above, npm 4.1.x or above
+- MySQL DB 
+- DB user is `root`
 
 ### Steps to run the server
 
