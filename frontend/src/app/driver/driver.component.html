@@ -1,12 +1,12 @@
 <div class="row">
-  <div class="col-md-10">
+  <div class="col-md-12">
       <h3>Driver App - Driver ID <b>{{driverId}}</b></h3>
   </div>
-  <div class="col-md-2 text-right">
+<!--   <div class="col-md-2 text-right">
     <button class="btn btn-info" style="width: 100%" (click)="getData()" [disabled]="refreshOn">
       {{ refreshOn ? 'Refreshing...' : 'Refresh' }}
     </button>
-  </div>
+  </div> -->
 </div>
 
 <br>
@@ -24,12 +24,15 @@
       <div class="card rideinfo">
         <div class="card-body">
           <div class="row">
-            <div class="col-md-6"><b>Req ID: </b> {{ride.request_id}}</div>
-            <div class="col-md-6"><b>Cust ID: </b> {{ride.customer_id}}</div>
+            <div class="col-md-6 text-left"><b>Req ID: </b> {{ride.request_id}}</div>
+            <div class="col-md-6 text-right"><b>Cust ID: </b> {{ride.customer_id}}</div>
           </div>
           <br>
           <div class="row">
-            <div class="col-md-12 text-center">
+            <div class="col-md-5 text-left">
+              Location: ({{ride.location_x}}, {{ride.location_y}})
+            </div>
+            <div class="col-md-7 text-right">
               {{getTime(ride.request_time)}}
             </div>
           </div>
@@ -59,8 +62,8 @@
         <div class="card rideinfo">
           <div class="card-body">
             <div class="row">
-              <div class="col-md-6"><b>Req ID: </b> {{ride.request_id}}</div>
-              <div class="col-md-6"><b>Cust ID: </b> {{ride.customer_id}}</div>
+              <div class="col-md-6 text-left"><b>Req ID: </b> {{ride.request_id}}</div>
+              <div class="col-md-6 text-right"><b>Cust ID: </b> {{ride.customer_id}}</div>
             </div>
             <br>
             <div class="row">
@@ -84,8 +87,8 @@
       <div class="card rideinfo">
         <div class="card-body">
           <div class="row">
-            <div class="col-md-6"><b>Req ID: </b> {{ride.request_id}}</div>
-            <div class="col-md-6"><b>Cust ID: </b> {{ride.customer_id}}</div>
+            <div class="col-md-6 text-left"><b>Req ID: </b> {{ride.request_id}}</div>
+            <div class="col-md-6 text-right"><b>Cust ID: </b> {{ride.customer_id}}</div>
           </div>
           <br>
           <div class="row">

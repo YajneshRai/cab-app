@@ -19,9 +19,13 @@ export class DashboardComponent implements OnInit {
 
   getData() {
     this.refreshOn = true;
-    this.dataService.getAllRequests(false).subscribe(
+    /* this.dataService.getAllRequests(false).subscribe(
       data => { console.log(data); this.rideInfo = data; this.refreshOn = false; }
-    );
+    ); */
+    this.dataService.startRideDataIntervalFetching();
+    this.dataService.getRideData().subscribe(
+      data => { this.rideInfo = data; this.refreshOn = false; }
+    )
   }
 
   getTime(time) {
@@ -32,5 +36,9 @@ export class DashboardComponent implements OnInit {
 
   getStatus(status) {
     return status == '1' ? 'Waiting' : status == 2 ? 'Ongoing' : 'Complete';
+  }
+
+  ngOnDestroy() {
+    this.dataService.stopRideDataFetching();
   }
 }

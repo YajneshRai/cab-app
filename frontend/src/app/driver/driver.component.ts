@@ -48,9 +48,13 @@ export class DriverComponent implements OnInit {
 
   getData() {
     this.refreshOn = true;
-    this.dataService.getAllRequests(true, this.driverId).subscribe(
+    /* this.dataService.getAllRequests(true, this.driverId).subscribe(
       data => { console.log(data); this.rideInfo = data; this.refreshOn = false; }
-    );
+    ); */
+    this.dataService.startDriverDataIntervalFetching(this.driverId);
+    this.dataService.getDriverData().subscribe(
+      data => { this.rideInfo = data; this.refreshOn = false; }
+    )
   }
 
   getTime(time) {
@@ -75,7 +79,7 @@ export class DriverComponent implements OnInit {
           setTimeout(() => { 
             this.errMsg=''; 
             this.curRequest = -1; 
-            this.getData(); 
+            this.refreshData(); 
           }, 2000);
         }
       },
@@ -90,9 +94,18 @@ export class DriverComponent implements OnInit {
           this.msg = ''; 
           this.curRequest = -1; 
           console.log(data);
-          this.getData(); 
+          this.refreshData(); 
         }
       }
     );
+  }
+  
+  refreshData() {
+    //this.dataService.stopDriverDataFetching();
+    this.getData(); 
+  }
+
+  ngOnDestroy() {
+    this.dataService.stopDriverDataFetching();
   }
 }
