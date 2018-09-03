@@ -26,14 +26,18 @@ Tables used (columns listed below):
   - `customer_id` varchar (id of customer) <br><br>
   
 - `driver` - stores the id of driver
-  - `driver_id` integer (id of driver) <br><br>
+  - `driver_id` integer (id of driver)
+  - `location_x` integer (location x value) 
+  - `location_y` integer (location y value) 
+  - `available` enum (0 - not available, 1 - available) <br><br>
   
 - `ride` - stores the information of ride request
   - `request_id` integer (id of request)
   - `request_time` timestamp (time of request creation)
   - `location_x` integer (location x value)
-  - `location_y` integer (location Y value)
-  - `customer_id` varchar (Foreign key referring to cutomer.customer_id) <br><br>
+  - `location_y` integer (location y value)
+  - `customer_id` varchar (Foreign key referring to cutomer.customer_id)
+  - `status` enum (1 -waiting, 1 - ongoing, 2 - complete) <br><br>
   
 - `ride_taken` - stores the information of ride requests that are served/being served
   - `id` integer (id of table)
